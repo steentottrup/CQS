@@ -4,15 +4,15 @@ A .NET library for simple command query separation, build for .NET Core (.netsta
 
 According to CQS, every method should either be a command that performs an action, or a query that returns data to the caller, but not both.
 
-If you need to validate your commands or queries or check for permissions, Ncqs will handle that too, automatically. As per CQS, NCqs does not allow commands to return any data, so if any validation or permission check fail, an exception ill be thrown.
+If you need to validate your commands or queries or check for permissions, Ncqs will handle that too, automatically. As per CQS, NCqs does not allow commands to return any data, so if any validation or permission check fail, an exception will be thrown.
 
 # NCqs with Ninject
 
 An implementation using Ninject for dependency injection is included.
 
-Included is implementations for a 创CommandDispatcher创 and a 创QueryDispatcher创.
+Included is implementations for a ```CommandDispatcher``` and a ```QueryDispatcher```.
 
-Extension methods for the 创IKernelConfiguration创 interface are also included, for binding query and command handlers, and if used, validators and permission checks.
+Extension methods for the ```KernelConfiguration``` interface are also included, for binding query and command handlers, and if used, validators and permission checks.
 
 ###### Validation
 ```
@@ -22,7 +22,7 @@ public class CreateForumCommand
 	public string Name {get;set;}
 }
 ```
-By adding the 创ValidateAttribute创 to your command classes, they will be validated before being executed, if you remember to add one or more validator classes for the command.
+By adding the ```ValidateAttribute``` to your command classes, they will be validated before being executed, if you remember to add one or more validator classes for the command.
 
 ```
 public class CreateForumValidator : IValidator<CreateForumCommand>
@@ -43,7 +43,7 @@ public class CreateForumCommand
 	public string Name {get;set;}
 }
 ```
-By adding the 创PermissionChecksAttribute创 to your command classes, they will be checked before being executed, if you remember to add a permission check class for the command.
+By adding the ```PermissionChecksAttribute``` to your command classes, they will be checked before being executed, if you remember to add a permission check class for the command.
 
 ```
 public class CreateForumPermissionCheck : IPermissionCheck<CreateForumCommand>
