@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NCqs", "NCqs\NCqs.xproj", "{2EFC8BE5-B12B-434A-BEFA-77D1E1616574}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "NCqs.Ninject", "NCqs.Ninject\NCqs.Ninject.xproj", "{40674CA2-6222-41BC-ACDD-4312028840A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{2EFC8BE5-B12B-434A-BEFA-77D1E1616574}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EFC8BE5-B12B-434A-BEFA-77D1E1616574}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EFC8BE5-B12B-434A-BEFA-77D1E1616574}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40674CA2-6222-41BC-ACDD-4312028840A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40674CA2-6222-41BC-ACDD-4312028840A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40674CA2-6222-41BC-ACDD-4312028840A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40674CA2-6222-41BC-ACDD-4312028840A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
