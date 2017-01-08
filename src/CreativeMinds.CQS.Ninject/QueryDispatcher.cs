@@ -5,9 +5,6 @@ using CreativeMinds.CQS.Validators;
 using Ninject;
 using Ninject.Parameters;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace CreativeMinds.CQS.Ninject {
 
@@ -18,36 +15,19 @@ namespace CreativeMinds.CQS.Ninject {
 			this.kernel = kernel;
 		}
 
-		protected override IQueryHandler<TQuery, TResult> Resolve<TQuery, TResult>() {
-			IQueryHandler<TQuery, TResult> handler = null;
-			try {
-				List<IParameter> parameters = new List<IParameter>();
-				IEnumerable<Attribute> attrs = typeof(TQuery).GetTypeInfo().GetCustomAttributes();
-				if (attrs.Any(a => a.GetType() == typeof(CreativeMinds.CQS.Decorators.ValidateAttribute))) {
-					handler = this.kernel.Get<IGenericValidationQueryHandlerDecorator<TQuery, TResult>>();
-					parameters.Add(new ConstructorArgument("wrappedHandler", handler));
-				}
+		protected override IGenericValidationQueryHandlerDecorator<TQuery, TResult> GetValidationHandler<TQuery, TResult>() {
+			return this.kernel.Get<IGenericValidationQueryHandlerDecorator<TQuery, TResult>>();
+		}
 
-				if (attrs.Any(a => a.GetType() == typeof(CreativeMinds.CQS.Decorators.CheckPermissionsAttribute)) ||
-					attrs.Any(a => a.GetType().GetTypeInfo().BaseType == typeof(CreativeMinds.CQS.Decorators.CheckPermissionsAttribute))) {
-
-					handler = this.kernel.Get<IGenericPermissionCheckQueryHandlerDecorator<TQuery, TResult>>(parameters.ToArray());
-				}
-
-				if (handler == null) {
-					handler = this.kernel.Get<IQueryHandler<TQuery, TResult>>();
-				}
+		protected override IGenericPermissionCheckQueryHandlerDecorator<TQuery, TResult> GetPermissionCheckHandler<TQuery, TResult>(IQueryHandler<TQuery, TResult> validationHandler) {
+			if (validationHandler != null) {
+				return this.kernel.Get<IGenericPermissionCheckQueryHandlerDecorator<TQuery, TResult>>(new IParameter[] { new ConstructorArgument("wrappedHandler", validationHandler) });
 			}
-			catch (Exception ex) {
-				// TODO: log
-				throw ex;
-			}
+			return this.kernel.Get<IGenericPermissionCheckQueryHandlerDecorator<TQuery, TResult>>();
+		}
 
-			if (handler == null) {
-				throw new RequiredHandlerNotFoundException();
-			}
-
-			return handler;
+		protected override IQueryHandler<TQuery, TResult> GetQueryHandler<TQuery, TResult>() {
+			return this.kernel.Get<IQueryHandler<TQuery, TResult>>();
 		}
 	}
 }
