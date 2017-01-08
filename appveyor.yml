@@ -20,7 +20,7 @@ before_build:
       dotnet restore
 
 build:
-  project: src\ncqs.sln
+  project: src\creativeminds.cqs.sln
   publish_nuget: true
   verbosity: minimal
 before_test:
