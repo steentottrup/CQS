@@ -19,6 +19,18 @@ before_build:
 
       dotnet restore
 
+      $a = Get-Content 'C:\projects\ncqs\src\creativeminds.cqs\project.json' -raw | ConvertFrom-Json
+
+      $a.update | % {if($_.name -eq 'version'){$_=$env:APPVEYOR_BUILD_VERSION}}
+
+      $a | ConvertTo-Json  | set-content 'C:\projects\ncqs\src\creativeminds.cqs\project.json'
+
+      $a = Get-Content 'C:\projects\ncqs\src\creativeminds.cqs.ninject\project.json' -raw | ConvertFrom-Json
+
+      $a.update | % {if($_.name -eq 'version'){$_.version=$env:APPVEYOR_BUILD_VERSION}}
+
+      $a | ConvertTo-Json  | set-content 'C:\projects\ncqs\src\creativeminds.cqs.ninject\project.json'
+
 build:
   project: src\creativeminds.cqs.sln
   publish_nuget: true
