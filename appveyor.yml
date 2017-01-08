@@ -6,7 +6,6 @@ assembly_info:
   assembly_version: '{version}'
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
-cache: src\packages -> **\packages.config
 nuget:
   account_feed: true
   project_feed: true
@@ -27,4 +26,4 @@ build:
 before_test:
 - ps: #.\Install-MongoDb-On-AppVeyor.ps1
 artifacts:
-- path: '*.nupkg'
+- path: '**\*.nupkg'
