@@ -19,6 +19,8 @@
   "packOptions": {
     "licenseUrl": "https://github.com/steentottrup/NCqs/blob/master/LICENSE",
     "repository": { "url": "https://github.com/steentottrup/NCqs" },
-    "owners": [ "Steen F. Tøttrup" ]
+    "owners": [ "Steen F. Tøttrup" ],
+    "summary": "A .NET library for simple command query separation, build for .NET Core.",
+    "tags": [ "cqs", "command/query", "command", "query" ]
   }
 }
