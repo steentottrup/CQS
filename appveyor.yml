@@ -25,11 +25,9 @@ before_build:
 
       $a | ConvertTo-Json  | set-content 'C:\projects\ncqs\src\creativeminds.cqs\project.json'
 
-      Get-Content 'C:\projects\ncqs\src\creativeminds.cqs\project.json' | foreach {Write-Output $_}
-
       $a = Get-Content 'C:\projects\ncqs\src\creativeminds.cqs.ninject\project.json' -raw | ConvertFrom-Json
 
-      $a.update | % {if($_.name -eq 'version'){$_.version=$env:APPVEYOR_BUILD_VERSION}}
+      $a.version = $a.version.replace('-*', ('.' + $env:APPVEYOR_BUILD_NUMBER))
 
       $a | ConvertTo-Json  | set-content 'C:\projects\ncqs\src\creativeminds.cqs.ninject\project.json'
 
