@@ -1,0 +1,28 @@
+version: 0.5.0.{build}
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
+cache: src\packages -> **\packages.config
+nuget:
+  account_feed: true
+  project_feed: true
+services:
+- mongodb
+before_build:
+  - ps: >-
+      nuget sources update -Name nuget.org -Source https://api.nuget.org/v3/index.json
+
+      dotnet restore src\ncqs.sln
+
+build:
+  project: src\ncqs.sln
+  publish_nuget: true
+  verbosity: minimal
+before_test:
+- ps: #.\Install-MongoDb-On-AppVeyor.ps1
+artifacts:
+- path: '*.nupkg'
