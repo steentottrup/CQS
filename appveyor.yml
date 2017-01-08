@@ -21,7 +21,7 @@ before_build:
 
       $a = Get-Content 'C:\projects\ncqs\src\creativeminds.cqs\project.json' -raw | ConvertFrom-Json
 
-      $a.version = $env:APPVEYOR_BUILD_VERSION
+      $a.version = $a.version.replace('-*', '.$($env:APPVEYOR_BUILD_NUMBER)')
 
       $a | ConvertTo-Json  | set-content 'C:\projects\ncqs\src\creativeminds.cqs\project.json'
 
