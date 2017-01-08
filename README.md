@@ -1,4 +1,4 @@
-# NCqs
+# CreativeMinds CQS
 
 A .NET library for simple command query separation, build for .NET Core (.netstandard 1.6).
 
@@ -6,7 +6,7 @@ According to CQS, every method should either be a command that performs an actio
 
 If you need to validate your commands or queries or check for permissions, Ncqs will handle that too, automatically. As per CQS, NCqs does not allow commands to return any data, so if any validation or permission check fail, an exception will be thrown.
 
-# NCqs with Ninject
+# CreativeMinds CQS with Ninject
 
 An implementation using Ninject for dependency injection is included.
 
