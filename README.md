@@ -6,14 +6,6 @@ According to CQS, every method should either be a command that performs an actio
 
 If you need to validate your commands or queries or check for permissions, Ncqs will handle that too, automatically. As per CQS, NCqs does not allow commands to return any data, so if any validation or permission check fail, an exception will be thrown.
 
-# CreativeMinds CQS with Ninject
-
-An implementation using Ninject for dependency injection is included.
-
-Included is implementations for a ```CommandDispatcher``` and a ```QueryDispatcher```.
-
-Extension methods for the ```KernelConfiguration``` interface are also included, for binding query and command handlers, and if used, validators and permission checks.
-
 ###### Validation
 ```
 [Validate]
@@ -55,3 +47,10 @@ public class CreateForumPermissionCheck : IPermissionCheck<CreateForumCommand>
 ```
 You can add one permission check for each command.
 
+# CreativeMinds CQS with Ninject
+
+An implementation using Ninject for dependency injection is included.
+
+Included is implementations for a ```CommandDispatcher``` and a ```QueryDispatcher```.
+
+Extension methods for the ```KernelConfiguration``` interface are also included, for binding query and command handlers, and if used, validators and permission checks.
