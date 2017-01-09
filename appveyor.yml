@@ -9,8 +9,6 @@ assembly_info:
 nuget:
   account_feed: true
   project_feed: true
-services:
-- mongodb
 before_build:
   - ps: >-
       nuget sources update -Name nuget.org -Source https://api.nuget.org/v3/index.json
