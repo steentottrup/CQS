@@ -18,11 +18,9 @@ nuget:
   project_feed: true
 before_build:
   - ps: >-
-      nuget sources update -Name nuget.org -Source https://api.nuget.org/v3/index.json
+      nuget restore src\CreativeMinds.CQS.sln
 
       Set-Location -Path ("src")
-
-      dotnet restore
 
       $a = Get-Content 'C:\projects\ncqs\src\creativeminds.cqs\project.json' -raw | ConvertFrom-Json
 
