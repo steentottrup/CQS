@@ -6,7 +6,7 @@ namespace CreativeMinds.CQS.Permissions {
 		public readonly string FailureMessage;
 		public readonly int Code;
 
-		public PermissionException(String message, Int32 code) : base($"{code} - {message}") {
+		public PermissionException(Int32 code, String message) : base($"{code} - {message}") {
 			this.FailureMessage = message;
 			this.Code = code;
 		}

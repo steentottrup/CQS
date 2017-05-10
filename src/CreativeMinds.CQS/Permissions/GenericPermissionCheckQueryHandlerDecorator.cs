@@ -6,19 +6,19 @@ namespace CreativeMinds.CQS.Permissions {
 
 	public class GenericPermissionCheckQueryHandlerDecorator<TQuery, TResult> : IGenericPermissionCheckQueryHandlerDecorator<TQuery, TResult> where TQuery : IQuery<TResult> {
 		private readonly IQueryHandler<TQuery, TResult> wrappedHandler;
-		private readonly IPrincipal currentUser;
+		private readonly IIdentity currentUser;
 		private readonly IPermissionCheck<TQuery> check;
 
-		public GenericPermissionCheckQueryHandlerDecorator(IQueryHandler<TQuery, TResult> wrappedHandler, IPrincipal currentUser, IPermissionCheck<TQuery> check) {
+		public GenericPermissionCheckQueryHandlerDecorator(IQueryHandler<TQuery, TResult> wrappedHandler, IIdentity currentUser, IPermissionCheck<TQuery> check) {
 			this.wrappedHandler = wrappedHandler;
 			this.currentUser = currentUser;
 			this.check = check;
 		}
 
 		protected void PerformCheck(TQuery query) {
-			Tuple<Boolean, String, Int32> tuple = this.check.Check(query, this.currentUser);
-			if (!tuple.Item1) {
-				throw new PermissionException(tuple.Item2, tuple.Item3);
+			IPermissionCheckResult result = this.check.Check(query, this.currentUser);
+			if (!result.HasPermissions) {
+				throw new PermissionException(result.ErrorCode, result.ErrorMessage);
 			}
 		}
 

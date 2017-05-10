@@ -5,18 +5,25 @@ using System.Security.Principal;
 namespace CreativeMinds.CQS.Permissions {
 
 	public abstract class QueryPermissionCheckBase<TQuery, TResult> : IPermissionCheck<TQuery> where TQuery : IQuery<TResult> {
-		protected abstract String ErrorMessage { get; set; }
-		protected abstract Int32 ErrorCode { get; set; }
+		protected virtual String ErrorMessage { get; set; }
+		protected virtual Int32 ErrorCode { get; set; }
 
-		protected abstract Boolean CheckPermissions(TQuery query, IPrincipal user);
+		protected QueryPermissionCheckBase() { }
 
-		public virtual Tuple<Boolean, String, Int32> Check(TQuery query, IPrincipal user) {
+		protected QueryPermissionCheckBase(Int32 errorCode, String errorMessage) {
+			this.ErrorCode = errorCode;
+			this.ErrorMessage = errorMessage;
+		}
+
+		protected abstract Boolean CheckPermissions(TQuery query, IIdentity user);
+
+		public virtual IPermissionCheckResult Check(TQuery query, IIdentity user) {
 			Boolean hasPermissions = this.CheckPermissions(query, user);
-			return new Tuple<Boolean, String, Int32>(
-				hasPermissions,
-				hasPermissions ? String.Empty : this.ErrorMessage,
-				hasPermissions ? 0 : this.ErrorCode
-			);
+			return new PermissionCheckResult {
+				HasPermissions = hasPermissions,
+				ErrorCode = hasPermissions ? 0 : this.ErrorCode,
+				ErrorMessage = hasPermissions ? string.Empty : this.ErrorMessage
+			};
 		}
 	}
 }
