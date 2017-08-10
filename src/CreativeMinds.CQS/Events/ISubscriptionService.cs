@@ -1,9 +1,9 @@
-using System;
-using System.Collections.Generic;
+//using System;
+//using System.Collections.Generic;
 
-namespace CreativeMinds.CQS.Events {
+//namespace CreativeMinds.CQS.Events {
 
-	public interface ISubscriptionService {
-		IEnumerable<IEventHandler<TEvent>> GetSubscriptions<TEvent>() where TEvent : IEvent;
-	}
-}
+//	public interface ISubscriptionService {
+//		IEnumerable<IEventHandler<TEvent>> GetSubscriptions<TEvent>() where TEvent : IEvent;
+//	}
+//}

@@ -1,9 +1,9 @@
-﻿using CreativeMinds.CQS.Queries;
-using System;
+﻿//using CreativeMinds.CQS.Queries;
+//using System;
 
-namespace CreativeMinds.CQS.Resolvers {
+//namespace CreativeMinds.CQS.Resolvers {
 
-	public interface IQueryHandlerResolver {
-		IQueryHandler<TQuery, TResult> Resolve<TQuery, TResult>() where TQuery : IQuery<TResult>;
-	}
-}
+//	public interface IQueryHandlerResolver {
+//		IQueryHandler<TQuery, TResult> Resolve<TQuery, TResult>() where TQuery : IQuery<TResult>;
+//	}
+//}

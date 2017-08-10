@@ -1,4 +1,5 @@
 ﻿using CreativeMinds.CQS.Commands;
+using CreativeMinds.CQS.Events;
 using CreativeMinds.CQS.Permissions;
 using CreativeMinds.CQS.Queries;
 using CreativeMinds.CQS.Validators;
@@ -10,6 +11,16 @@ using System.Reflection;
 namespace CreativeMinds.CQS.Ninject {
 
 	public static class IKernelConfigurationExtensions {
+
+		public static void BindEventHandlers(this IKernelConfiguration config, Assembly assembly) {
+			foreach (var type in assembly.GetTypes().Where(t => t.GetInterfaces().Any(i => i.IsConstructedGenericType == true && i.GetGenericTypeDefinition() == typeof(IEventHandler<>)))) {
+				foreach (Type eventHandler in type.GetInterfaces().Where(i => i.IsConstructedGenericType == true && i.GetGenericTypeDefinition() == typeof(IEventHandler<>))) {
+					config
+						.Bind(eventHandler)
+						.To(type);
+				}
+			}
+		}
 
 		public static void BindCommandHandlers(this IKernelConfiguration config, Assembly assembly) {
 			foreach (var type in assembly.GetTypes().Where(t => t.GetInterfaces().Any(i => i.IsConstructedGenericType == true && i.GetGenericTypeDefinition() == typeof(ICommandHandler<>)))) {

@@ -1,6 +1,7 @@
 ﻿using CreativeMinds.CQS.Commands;
 using CreativeMinds.CQS.Permissions;
 using CreativeMinds.CQS.Validators;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,36 +11,59 @@ namespace CreativeMinds.CQS.Dispatchers {
 
 	public abstract class CommandDispatcherBase : ICommandDispatcher {
 
-		protected abstract IGenericValidationCommandHandlerDecorator<TCommand> GetValidationHandler<TCommand>() where TCommand : ICommand;
-		protected abstract IGenericPermissionCheckCommandHandlerDecorator<TCommand> GetPermissionCheckHandler<TCommand>(ICommandHandler<TCommand> validationHandler) where TCommand : ICommand;
+		protected ILogger logger;
+		protected abstract IGenericValidationCommandHandlerDecorator<TCommand> GetValidationHandler<TCommand>(ICommandHandler<TCommand> wrappedHandler) where TCommand : ICommand;
+		protected abstract IGenericPermissionCheckCommandHandlerDecorator<TCommand> GetPermissionCheckHandler<TCommand>(ICommandHandler<TCommand> wrappedHandler) where TCommand : ICommand;
 		protected abstract ICommandHandler<TCommand> GetCommandHandler<TCommand>() where TCommand : ICommand;
 
+		protected CommandDispatcherBase(ILogger logger) {
+			this.logger = logger;
+		}
+
 		protected virtual ICommandHandler<TCommand> Resolve<TCommand>() where TCommand : ICommand {
-			ICommandHandler<TCommand> handler = null;
-			try {
-				IEnumerable<Attribute> attrs = typeof(TCommand).GetTypeInfo().GetCustomAttributes();
-				if (attrs.Any(a => a.GetType() == typeof(CreativeMinds.CQS.Decorators.ValidateAttribute))) {
-					handler = this.GetValidationHandler<TCommand>();
-				}
-
-				if (attrs.Any(a => a.GetType() == typeof(CreativeMinds.CQS.Decorators.CheckPermissionsAttribute)) ||
-					attrs.Any(a => a.GetType().GetTypeInfo().BaseType == typeof(CreativeMinds.CQS.Decorators.CheckPermissionsAttribute))) {
-
-					handler = this.GetPermissionCheckHandler<TCommand>(handler);
-				}
-
-				if (handler == null) {
-					handler = this.GetCommandHandler<TCommand>();
-				}
-			}
-			catch (Exception ex) {
-				// TODO: log
-				throw ex;
-			}
-
+			this.logger.LogDebug($"Resolving the {typeof(TCommand).Name} command.");
+			//try {
+			// Let's get the command handler, we're going to need this, no matter what!!
+			ICommandHandler<TCommand> handler = this.GetCommandHandler<TCommand>();
 			if (handler == null) {
+				this.logger.LogCritical($"Trying to resolve a handler for the {typeof(TCommand).Name} command failed. No handler found.");
 				throw new RequiredHandlerNotFoundException();
 			}
+
+			IEnumerable<Attribute> attrs = typeof(TCommand).GetTypeInfo().GetCustomAttributes();
+			// Any validation decorator found on the command?
+			if (attrs.Any(a => a.GetType() == typeof(CreativeMinds.CQS.Decorators.ValidateAttribute))) {
+				this.logger.LogDebug($"Found a validation decorator for the {typeof(TCommand).Name} command.");
+				// Let's get the validation handler, we need it.
+				ICommandHandler<TCommand> validationHandler = this.GetValidationHandler<TCommand>(handler);
+				if (validationHandler == null) {
+					this.logger.LogWarning($"A validation decorator was found for the {typeof(TCommand).GetTypeInfo().Name} command, but no handler was located.");
+				}
+				else {
+					handler = validationHandler;
+				}
+			}
+
+			// Any permission check decorator found on the command?
+			if (attrs.Any(a => a.GetType() == typeof(CreativeMinds.CQS.Decorators.CheckPermissionsAttribute)) ||
+				attrs.Any(a => a.GetType().GetTypeInfo().BaseType == typeof(CreativeMinds.CQS.Decorators.CheckPermissionsAttribute))) {
+
+				this.logger.LogDebug($"Found a permission check decorator for the {typeof(TCommand).Name} command.");
+				// Let's get the permission check handler, we need it.
+				ICommandHandler<TCommand> permissionCheckHandler = this.GetPermissionCheckHandler<TCommand>(handler);
+				if (permissionCheckHandler == null) {
+					this.logger.LogWarning($"A permission check decorator was found for the {typeof(TCommand).GetTypeInfo().Name} command, but no handler was located.");
+				}
+				else {
+					handler = permissionCheckHandler;
+				}
+			}
+
+			//}
+			//catch (Exception ex) {
+			//	logger.LogError("An exception occured trying to ")
+			//	throw ex;
+			//}
 
 			return handler;
 		}

@@ -4,7 +4,9 @@ A .NET library for simple command query separation, build for .NET Core (.netsta
 
 According to CQS, every method should either be a command that performs an action, or a query that returns data to the caller, but not both.
 
-If you need to validate your commands or queries or check for permissions, Ncqs will handle that too, automatically. As per CQS, NCqs does not allow commands to return any data, so if any validation or permission check fail, an exception will be thrown.
+If you need to validate your commands or queries or check for permissions, CreativeMinds CQS will handle that too, automatically. As per CQS, CreativeMinds CQS does not allow commands to return any data, so if any validation or permission check fail, an exception will be thrown.
+
+CreativeMinds CQS also includes classes and interfaces for using events. You can have any number of event handlers for a given event.
 
 ###### Validation
 ```
@@ -51,6 +53,6 @@ You can add one permission check for each command.
 
 An implementation using Ninject for dependency injection is included.
 
-Included is implementations for a ```CommandDispatcher``` and a ```QueryDispatcher```.
+Included is implementations for a ```CommandDispatcher```, a ```QueryDispatcher``` and an ```EventDispatcher```.
 
-Extension methods for the ```KernelConfiguration``` interface are also included, for binding query and command handlers, and if used, validators and permission checks.
+Extension methods for the ```KernelConfiguration``` interface are also included, for binding event, query and command handlers, and if used, validators and permission checks.

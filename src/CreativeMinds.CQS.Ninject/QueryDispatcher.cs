@@ -2,6 +2,7 @@
 using CreativeMinds.CQS.Permissions;
 using CreativeMinds.CQS.Queries;
 using CreativeMinds.CQS.Validators;
+using Microsoft.Extensions.Logging;
 using Ninject;
 using Ninject.Parameters;
 using System;
@@ -11,7 +12,7 @@ namespace CreativeMinds.CQS.Ninject {
 	public class QueryDispatcher : QueryDispatcherBase {
 		private readonly IReadOnlyKernel kernel;
 
-		public QueryDispatcher(IReadOnlyKernel kernel) {
+		public QueryDispatcher(ILogger logger, IReadOnlyKernel kernel) : base(logger) {
 			this.kernel = kernel;
 		}
 
