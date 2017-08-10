@@ -6,12 +6,14 @@ According to CQS, every method should either be a command that performs an actio
 
 If you need to validate your commands or queries or check for permissions, CreativeMinds CQS will handle that too, automatically. As per CQS, CreativeMinds CQS does not allow commands to return any data, so if any validation or permission check fail, an exception will be thrown.
 
+Commands and queries will have their permission checks executed first, if any are present, then the validations, again if any are present, and finally the actual command or query will be executed.
+
 CreativeMinds CQS also includes classes and interfaces for using events. You can have any number of event handlers for a given event.
 
 ###### Validation
 ```
 [Validate]
-public class CreateForumCommand 
+public class CreateForumCommand : ICommand
 {
 	public string Name {get;set;}
 }
@@ -30,9 +32,10 @@ public class CreateForumValidator : IValidator<CreateForumCommand>
 You can add any number of validators for the same command.
 
 ###### Permission Check
+
 ```
 [CheckPermissions]
-public class CreateForumCommand 
+public class CreateForumCommand : ICommand
 {
 	public string Name {get;set;}
 }

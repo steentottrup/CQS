@@ -16,24 +16,6 @@ environment:
 nuget:
   account_feed: true
   project_feed: true
-before_build:
-  - ps: >-
-      nuget restore src\CreativeMinds.CQS.sln
-
-      Set-Location -Path ("src")
-
-      $a = Get-Content 'C:\projects\ncqs\src\creativeminds.cqs\project.json' -raw | ConvertFrom-Json
-
-      $a.version = $a.version.replace('-*', ('.' + $env:APPVEYOR_BUILD_NUMBER))
-
-      $a | ConvertTo-Json  | set-content 'C:\projects\ncqs\src\creativeminds.cqs\project.json'
-
-      $a = Get-Content 'C:\projects\ncqs\src\creativeminds.cqs.ninject\project.json' -raw | ConvertFrom-Json
-
-      $a.version = $a.version.replace('-*', ('.' + $env:APPVEYOR_BUILD_NUMBER))
-
-      $a | ConvertTo-Json  | set-content 'C:\projects\ncqs\src\creativeminds.cqs.ninject\project.json'
-
 build:
   project: src\creativeminds.cqs.sln
   publish_nuget: true
