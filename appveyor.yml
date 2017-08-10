@@ -16,6 +16,10 @@ environment:
 nuget:
   account_feed: true
   project_feed: true
+before_build:
+  - ps: >-
+      nuget restore src\CreativeMinds.CQS.sln
+
 build:
   project: src\creativeminds.cqs.sln
   publish_nuget: true
