@@ -18,7 +18,7 @@ nuget:
   project_feed: true
 before_build:
   - ps: >-
-      dotnet restore src\CreativeMinds.CQS.sln
+      nuget restore src\CreativeMinds.CQS.sln
 
 build:
   project: src\creativeminds.cqs.sln
