@@ -19,7 +19,7 @@ before_build:
   - ps: >-
       dotnet restore src\creativeminds.cqs.sln
 
-      dotnet build src\creativeminds.cqs.sln
-
-      dotnet pack src\creativeminds.cqs.sln
+after_build:
+  - ps: >-
+      dotnet pack -c Release src\creativeminds.cqs.sln
 
