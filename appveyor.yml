@@ -17,9 +17,9 @@ nuget:
   project_feed: true
 before_build:
   - ps: >-
-      dotnet restore src\creativeminds.cqs.sln
+      dotnet restore
 
 after_build:
   - ps: >-
-      dotnet pack -c Release src\creativeminds.cqs.sln
+      dotnet pack -c Release
 
