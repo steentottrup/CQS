@@ -2,12 +2,11 @@ version: 0.5.5.{build}
 configuration: Release
 init:
 - ps: "nuget sources update -Name AppVeyorAccountFeed -Source $env:nuget_source -UserName $env:nuget_user -Password $env:nuget_password"
-assembly_info:
+dotnet_csproj:
   patch: true
-  file: '**\AssemblyInfo.*'
-  assembly_version: '{version}'
-  assembly_file_version: '{version}'
-  assembly_informational_version: '{version}'
+  file: '**\*.csproj'
+  version: '{version}'
+  package_version: '{version}'
 environment:
   nuget_user: nugetrestore@creativeminds.dk
   nuget_password:
@@ -18,13 +17,9 @@ nuget:
   project_feed: true
 before_build:
   - ps: >-
-      nuget restore src\CreativeMinds.CQS.sln
+      dotnet restore
 
-build:
-  project: src\creativeminds.cqs.sln
-  publish_nuget: true
-  verbosity: minimal
-before_test:
-- ps: #.\Install-MongoDb-On-AppVeyor.ps1
-artifacts:
-- path: '**\*.nupkg'
+      dotnet build
+
+      dotnet package
+
