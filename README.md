@@ -52,7 +52,7 @@ public class CreateForumPermissionCheck : IPermissionCheck<CreateForumCommand>
 ```
 You can add one permission check for each command.
 
-# CreativeMinds CQS with Ninject
+# CreativeMinds CQS with Autofac
 
 An implementation using Autofac for dependency injection is included.
 
