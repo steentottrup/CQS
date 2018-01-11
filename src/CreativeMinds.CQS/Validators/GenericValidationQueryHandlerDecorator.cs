@@ -28,19 +28,5 @@ namespace CreativeMinds.CQS.Validators {
 
 			return this.wrappedHandler.Handle(query);
 		}
-
-		//public async Task<TResult> HandleAsync(TQuery query) {
-		//	if (this.validators.Any()) {
-		//		List<ValidationResult> results = new List<ValidationResult>();
-		//		this.validators.ToList().ForEach(async validator => {
-		//			results.Add(await validator.ValidateAsync(query));
-		//		});
-
-		//		if (results.Any(r => r.Errors.Any())) {
-		//			throw new ValidationException(results.SelectMany(r => r.Errors));
-		//		}
-		//	}
-		//	return await this.wrappedHandler.HandleAsync(query);
-		//}
 	}
 }

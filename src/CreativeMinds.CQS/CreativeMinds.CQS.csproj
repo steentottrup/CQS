@@ -1,7 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.9.0</Version>
+    <Authors>Steen F. Tøttrup</Authors>
+    <Company>CreativeMinds Ivs</Company>
+    <Description>A generic CQS (command, query separation) package for .Net Core</Description>
+    <Copyright>Copyright 2018 (C) CreativeMinds Ivs. All rights reserved.</Copyright>
+    <PackageLicenseUrl>http://www.creativeminds.dk</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/steentottrup/CQS</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/steentottrup/CQS</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>CQS</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

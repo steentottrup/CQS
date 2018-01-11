@@ -28,20 +28,5 @@ namespace CreativeMinds.CQS.Validators {
 			}
 			this.wrappedHandler.Execute(command);
 		}
-
-		//public async Task ExecuteAsync(TCommand command) {
-		//	if (this.validators.Any()) {
-		//		List<ValidationResult> results = new List<ValidationResult>();
-		//		foreach (var validator in this.validators) {
-		//			ValidationResult result = await validator.ValidateAsync(command);
-		//			results.Add(result);
-		//		}
-
-		//		if (results.Any(r => r.Errors.Any())) {
-		//			throw new ValidationException(results.SelectMany(r => r.Errors));
-		//		}
-		//	}
-		//	await this.wrappedHandler.ExecuteAsync(command);
-		//}
 	}
 }

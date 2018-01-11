@@ -26,10 +26,5 @@ namespace CreativeMinds.CQS.Permissions {
 			this.PerformCheck(command);
 			this.wrappedHandler.Execute(command);
 		}
-
-		//public Task ExecuteAsync(TCommand command) {
-		//	this.PerformCheck(command);
-		//	return this.wrappedHandler.ExecuteAsync(command);
-		//}
 	}
 }
