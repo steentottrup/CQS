@@ -1,6 +1,6 @@
 # CreativeMinds CQS
 
-A .NET library for simple command query separation, build for .NET Core (.netstandard 1.6).
+A .NET library for simple command query separation, build for .NET Core (.netstandard 2.0).
 
 According to CQS, every method should either be a command that performs an action, or a query that returns data to the caller, but not both.
 
@@ -54,8 +54,10 @@ You can add one permission check for each command.
 
 # CreativeMinds CQS with Ninject
 
-An implementation using Ninject for dependency injection is included.
+An implementation using Autofac for dependency injection is included.
 
-Included is implementations for a ```CommandDispatcher```, a ```QueryDispatcher``` and an ```EventDispatcher```.
+Included is implementations for a ```CommandDispatcher```, a ```QueryDispatcher``` and an ```EventDispatcher```, as well as async dispatchers.
 
-Extension methods for the ```KernelConfiguration``` interface are also included, for binding event, query and command handlers, and if used, validators and permission checks.
+# CreativeMinds CQS with Ninject
+
+An implementation using Ninject for dependency injection has been discontinued because Ninject has not yet moved to .Net Core.
