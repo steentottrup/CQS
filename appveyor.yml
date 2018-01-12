@@ -23,7 +23,7 @@ build_script:
 
 after_build:
   - ps: >-
-      Push-AppveyorArtifact src\CreativeMinds.CQS\bin\Release\CreativeMinds.CQS.0.9.1.40.nupkg
+      Push-AppveyorArtifact src\CreativeMinds.CQS\bin\Release\*.nupkg
 
-      Push-AppveyorArtifact src\creativeminds.cqs.autofac\bin\Release\CreativeMinds.CQS.Autofac.0.9.1.40.nupkg
+      Push-AppveyorArtifact src\creativeminds.cqs.autofac\bin\Release\*.nupkg
 
