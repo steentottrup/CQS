@@ -15,10 +15,6 @@ environment:
 nuget:
   account_feed: true
   project_feed: true
-#build:
-#    project: src\creativeminds.cqs.sln
-#    publish_wap: true
-#    verbosity: normal
 build_script:
   - ps: >-
       dotnet build src\creativeminds.cqs\ -c Release
@@ -27,7 +23,7 @@ build_script:
 
 after_build:
   - ps: >-
-      dotnet pack src\creativeminds.cqs\ -c Release
+      Push-AppveyorArtifact src\CreativeMinds.CQS\bin\Release\CreativeMinds.CQS.0.9.1.40.nupkg
 
-      dotnet pack src\creativeminds.cqs.autofac\ -c Release
+      Push-AppveyorArtifact src\creativeminds.cqs.autofac\bin\Release\CreativeMinds.CQS.Autofac.0.9.1.40.nupkg
 
