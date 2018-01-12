@@ -1,4 +1,4 @@
-version: 0.5.5.{build}
+version: 0.9.1.{build}
 configuration: Release
 init:
 - ps: "nuget sources update -Name AppVeyorAccountFeed -Source $env:nuget_source -UserName $env:nuget_user -Password $env:nuget_password"
@@ -19,6 +19,10 @@ before_build:
   - ps: >-
       dotnet restore
 
+build:
+    project: src\creativeminds.cqs.sln
+    publish_wap: true
+    verbosity: normal
 after_build:
   - ps: >-
       dotnet pack -c Release
