@@ -15,15 +15,15 @@ environment:
 nuget:
   account_feed: true
   project_feed: true
-before_build:
-  - ps: >-
-      dotnet restore
-
+#before_build:
+#  - ps: >-
+#      dotnet restore
+#
 build:
     project: src\creativeminds.cqs.sln
     publish_wap: true
     verbosity: normal
-after_build:
-  - ps: >-
-      dotnet pack -c Release
-
+#after_build:
+#  - ps: >-
+#      dotnet pack -c Release
+#
