@@ -15,16 +15,16 @@ environment:
 nuget:
   account_feed: true
   project_feed: true
-before_build:
+#build:
+#    project: src\creativeminds.cqs.sln
+#    publish_wap: true
+#    verbosity: normal
+build_script:
   - ps: >-
-      dotnet restore src\creativeminds.cqs\
+      dotnet build src\creativeminds.cqs\ -c Release
 
-      dotnet restore src\creativeminds.cqs.autofac\
+      dotnet build src\creativeminds.cqs.autofac\ -c Release
 
-build:
-    project: src\creativeminds.cqs.sln
-    publish_wap: true
-    verbosity: normal
 after_build:
   - ps: >-
       dotnet pack src\creativeminds.cqs\ -c Release
