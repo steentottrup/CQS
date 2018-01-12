@@ -44,7 +44,23 @@ namespace CreativeMinds.CQS.Autofac {
 				.As<IAsyncQueryDispatcher>()
 				.InstancePerLifetimeScope();
 
-			// TODO: Permissions
+			builder.RegisterGeneric(typeof(GenericPermissionCheckAsyncCommandHandlerDecorator<>))
+				.As(typeof(IGenericPermissionCheckAsyncCommandHandlerDecorator<>))
+				.InstancePerLifetimeScope();
+
+			builder.RegisterGeneric(typeof(GenericPermissionCheckCommandHandlerDecorator<>))
+				.As(typeof(IGenericPermissionCheckCommandHandlerDecorator<>))
+				.InstancePerLifetimeScope();
+
+			builder.RegisterGeneric(typeof(GenericPermissionCheckAsyncQueryHandlerDecorator<,>))
+				.As(typeof(IGenericPermissionCheckAsyncQueryHandlerDecorator<,>))
+				.InstancePerLifetimeScope();
+
+			builder.RegisterGeneric(typeof(GenericPermissionCheckQueryHandlerDecorator<,>))
+				.As(typeof(IGenericPermissionCheckQueryHandlerDecorator<,>))
+				.InstancePerLifetimeScope();
+
+			// TODO: Events
 		}
 
 		private static void RegisterHandlers(ContainerBuilder builder, Assembly assembly, Type handlerType) {
