@@ -12,7 +12,7 @@ namespace CreativeMinds.CQS.Autofac {
 	public class CommandDispatcher : CommandDispatcherBase {
 		private readonly IContainer container;
 
-		public CommandDispatcher(ILogger logger, IContainer container) : base(logger) {
+		public CommandDispatcher(ILogger<CommandDispatcher> logger, IContainer container) : base(logger) {
 			// Needing the container itself is a bit of an anti-pattern, but unfortunately the building DI container in Core
 			// can not do what we need it to do! So no way around this, at least not at the moment.
 			this.container = container;

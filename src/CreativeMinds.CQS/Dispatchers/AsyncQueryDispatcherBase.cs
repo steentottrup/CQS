@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CreativeMinds.CQS.Dispatchers {
@@ -20,41 +21,43 @@ namespace CreativeMinds.CQS.Dispatchers {
 			this.logger = logger;
 		}
 
-		protected virtual IAsyncQueryHandler<TQuery, TResult> Resolve<TQuery, TResult>() where TQuery : IQuery<TResult> {
-			this.logger.LogDebug($"Resolving the {typeof(TQuery).GetTypeInfo().Name} query and {typeof(TResult).GetTypeInfo().Name} result.");
+		protected virtual IAsyncQueryHandler<TQuery, TResult> Resolve<TQuery, TResult>(CancellationToken cancellationToken) where TQuery : IQuery<TResult> {
+			cancellationToken.ThrowIfCancellationRequested();
+
+			this.logger.LogDebug($"Resolving the \"{typeof(TQuery).GetTypeInfo().Name}\" query and \"{typeof(TResult).GetTypeInfo().Name}\" result.");
 			IAsyncQueryHandler<TQuery, TResult> handler = this.GetQueryHandler<TQuery, TResult>();
 			if (handler == null) {
-				this.logger.LogCritical($"Trying to resolve a handler for the {typeof(TQuery).GetTypeInfo().Name} query and {typeof(TResult).GetTypeInfo().Name} result failed. No handler found.");
+				this.logger.LogCritical($"Trying to resolve a handler for the \"{typeof(TQuery).GetTypeInfo().Name}\" query and \"{typeof(TResult).GetTypeInfo().Name}\" result failed. No handler found.");
 				throw new RequiredHandlerNotFoundException();
 			}
 
 			//try {
 			IEnumerable<Attribute> attrs = typeof(TQuery).GetTypeInfo().GetCustomAttributes();
-			// Any validation decorator found on the query?
-			if (attrs.Any(a => a.GetType() == typeof(CreativeMinds.CQS.Decorators.ValidateAttribute))) {
-				this.logger.LogDebug($"Found a validation decorator for the {typeof(TQuery).Name} query and {typeof(TResult).GetTypeInfo().Name} result.");
-				// Let's get the validation handler, we need it.
-				IAsyncQueryHandler<TQuery, TResult> validationHandler = this.GetValidationHandler<TQuery, TResult>(handler);
-				if (validationHandler == null) {
-					this.logger.LogWarning($"A validation decorator was found for the {typeof(TQuery).GetTypeInfo().Name} query and {typeof(TResult).GetTypeInfo().Name} result, but no handler was located.");
-				}
-				else {
-					handler = validationHandler;
-				}
-			}
-
 			// Any permission check decorator found on the command?
 			if (attrs.Any(a => a.GetType() == typeof(CreativeMinds.CQS.Decorators.CheckPermissionsAttribute)) ||
 				attrs.Any(a => a.GetType().GetTypeInfo().BaseType == typeof(CreativeMinds.CQS.Decorators.CheckPermissionsAttribute))) {
 
-				this.logger.LogDebug($"Found a permission check decorator for the {typeof(TQuery).GetTypeInfo().Name} query and {typeof(TResult).GetTypeInfo().Name} result.");
+				this.logger.LogDebug($"Found a permission check decorator for the \"{typeof(TQuery).GetTypeInfo().Name}\" query and \"{typeof(TResult).GetTypeInfo().Name}\" result.");
 				// Let's get the permission check handler, we need it.
 				IAsyncQueryHandler<TQuery, TResult> permissionCheckHandler = this.GetPermissionCheckHandler<TQuery, TResult>(handler);
 				if (permissionCheckHandler == null) {
-					this.logger.LogWarning($"A permission check decorator was found for the {typeof(TQuery).GetTypeInfo().Name} query and {typeof(TResult).GetTypeInfo().Name} result, but no handler was located.");
+					this.logger.LogWarning($"A permission check decorator was found for the \"{typeof(TQuery).GetTypeInfo().Name}\" query and \"{typeof(TResult).GetTypeInfo().Name}\" result, but no handler was located.");
 				}
 				else {
 					handler = permissionCheckHandler;
+				}
+			}
+
+			// Any validation decorator found on the query?
+			if (attrs.Any(a => a.GetType() == typeof(CreativeMinds.CQS.Decorators.ValidateAttribute))) {
+				this.logger.LogDebug($"Found a validation decorator for the \"{typeof(TQuery).Name}\" query and \"{typeof(TResult).GetTypeInfo().Name}\" result.");
+				// Let's get the validation handler, we need it.
+				IAsyncQueryHandler<TQuery, TResult> validationHandler = this.GetValidationHandler<TQuery, TResult>(handler);
+				if (validationHandler == null) {
+					this.logger.LogWarning($"A validation decorator was found for the \"{typeof(TQuery).GetTypeInfo().Name}\" query and \"{typeof(TResult).GetTypeInfo().Name}\" result, but no handler was located.");
+				}
+				else {
+					handler = validationHandler;
 				}
 			}
 
@@ -64,12 +67,15 @@ namespace CreativeMinds.CQS.Dispatchers {
 			//	throw ex;
 			//}
 
+			this.logger.LogInformation($"Found a QuerHandler for the \"{typeof(TQuery).GetTypeInfo().Name}\" query and \"{typeof(TResult).GetTypeInfo().Name}\" result");
 			return handler;
 		}
 
-		public virtual Task<TResult> DispatchAsync<TQuery, TResult>(TQuery query) where TQuery : IQuery<TResult> {
-			IAsyncQueryHandler<TQuery, TResult> handler = this.Resolve<TQuery, TResult>();
-			return handler.HandleAsync(query);
+		public virtual Task<TResult> DispatchAsync<TQuery, TResult>(TQuery query, CancellationToken cancellationToken) where TQuery : IQuery<TResult> {
+			cancellationToken.ThrowIfCancellationRequested();
+
+			IAsyncQueryHandler<TQuery, TResult> handler = this.Resolve<TQuery, TResult>(cancellationToken);
+			return handler.HandleAsync(query, cancellationToken);
 		}
 	}
 }

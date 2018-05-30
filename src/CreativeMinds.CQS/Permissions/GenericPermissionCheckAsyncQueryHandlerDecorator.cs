@@ -1,6 +1,7 @@
 ﻿using CreativeMinds.CQS.Queries;
 using System;
 using System.Security.Principal;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CreativeMinds.CQS.Permissions {
@@ -23,9 +24,9 @@ namespace CreativeMinds.CQS.Permissions {
 			}
 		}
 
-		public async Task<TResult> HandleAsync(TQuery query) {
+		public async Task<TResult> HandleAsync(TQuery query, CancellationToken cancellationToken) {
 			await this.PerformCheckAsync(query);
-			return await this.wrappedHandler.HandleAsync(query);
+			return await this.wrappedHandler.HandleAsync(query, cancellationToken);
 		}
 	}
 }

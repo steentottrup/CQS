@@ -12,7 +12,7 @@ namespace CreativeMinds.CQS.Autofac {
 	public class QueryDispatcher : QueryDispatcherBase {
 		private readonly IContainer container;
 
-		public QueryDispatcher(ILogger logger, IContainer container) : base(logger) {
+		public QueryDispatcher(ILogger<QueryDispatcher> logger, IContainer container) : base(logger) {
 			// Needing the container itself is a bit of an anti-pattern, but unfortunately the building DI container in Core
 			// can not do what we need it to do! So no way around this, at least not at the moment.
 			this.container = container;

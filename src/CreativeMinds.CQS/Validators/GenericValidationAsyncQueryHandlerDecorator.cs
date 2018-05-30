@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CreativeMinds.CQS.Validators {
@@ -15,7 +16,7 @@ namespace CreativeMinds.CQS.Validators {
 			this.validators = validators;
 		}
 
-		public async Task<TResult> HandleAsync(TQuery query) {
+		public async Task<TResult> HandleAsync(TQuery query, CancellationToken cancellationToken) {
 			if (this.validators.Any()) {
 				List<ValidationResult> results = new List<ValidationResult>();
 				this.validators.ToList().ForEach(async validator => {
@@ -26,7 +27,7 @@ namespace CreativeMinds.CQS.Validators {
 					throw new ValidationException(results.SelectMany(r => r.Errors));
 				}
 			}
-			return await this.wrappedHandler.HandleAsync(query);
+			return await this.wrappedHandler.HandleAsync(query, cancellationToken);
 		}
 	}
 }
