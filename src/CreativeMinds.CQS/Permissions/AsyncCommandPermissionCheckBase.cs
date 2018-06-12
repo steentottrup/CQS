@@ -23,7 +23,7 @@ namespace CreativeMinds.CQS.Permissions {
 			return new PermissionCheckResult {
 				HasPermissions = hasPermissions,
 				ErrorCode = hasPermissions ? 0 : this.ErrorCode,
-				ErrorMessage = hasPermissions ? string.Empty : this.ErrorMessage
+				ErrorMessage = hasPermissions ? String.Empty : this.ErrorMessage
 			};
 		}
 	}
