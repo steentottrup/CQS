@@ -1,6 +1,7 @@
 ﻿using CreativeMinds.CQS.Commands;
 using System;
 using System.Security.Principal;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CreativeMinds.CQS.Permissions {
@@ -16,16 +17,16 @@ namespace CreativeMinds.CQS.Permissions {
 			this.check = check;
 		}
 
-		protected async Task PerformCheckAsync(TCommand command) {
-			IPermissionCheckResult result = await this.check.CheckAsync(command, this.currentUser);
+		protected async Task PerformCheckAsync(TCommand command, CancellationToken cancellationToken) {
+			IPermissionCheckResult result = await this.check.CheckAsync(command, this.currentUser, cancellationToken);
 			if (!result.HasPermissions) {
 				throw new PermissionException(result.ErrorCode, result.ErrorMessage);
 			}
 		}
 
-		public async Task ExecuteAsync(TCommand command) {
-			await this.PerformCheckAsync(command);
-			await this.wrappedHandler.ExecuteAsync(command);
+		public async Task ExecuteAsync(TCommand command, CancellationToken cancellationToken) {
+			await this.PerformCheckAsync(command, cancellationToken);
+			await this.wrappedHandler.ExecuteAsync(command, cancellationToken);
 		}
 	}
 }

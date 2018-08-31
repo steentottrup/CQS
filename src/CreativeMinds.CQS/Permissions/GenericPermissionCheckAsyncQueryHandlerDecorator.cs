@@ -17,15 +17,15 @@ namespace CreativeMinds.CQS.Permissions {
 			this.check = check;
 		}
 
-		protected async Task PerformCheckAsync(TQuery query) {
-			IPermissionCheckResult result = await this.check.CheckAsync(query, this.currentUser);
+		protected async Task PerformCheckAsync(TQuery query, CancellationToken cancellationToken) {
+			IPermissionCheckResult result = await this.check.CheckAsync(query, this.currentUser, cancellationToken);
 			if (!result.HasPermissions) {
 				throw new PermissionException(result.ErrorCode, result.ErrorMessage);
 			}
 		}
 
 		public async Task<TResult> HandleAsync(TQuery query, CancellationToken cancellationToken) {
-			await this.PerformCheckAsync(query);
+			await this.PerformCheckAsync(query, cancellationToken);
 			return await this.wrappedHandler.HandleAsync(query, cancellationToken);
 		}
 	}

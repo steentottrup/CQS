@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CreativeMinds.CQS.Dispatchers {
@@ -70,9 +71,9 @@ namespace CreativeMinds.CQS.Dispatchers {
 			return handler;
 		}
 
-		public virtual Task DispatchAsync<TCommand>(TCommand command) where TCommand : ICommand {
+		public virtual Task DispatchAsync<TCommand>(TCommand command, CancellationToken cancellationToken) where TCommand : ICommand {
 			IAsyncCommandHandler<TCommand> handler = this.Resolve<TCommand>();
-			return handler.ExecuteAsync(command);
+			return handler.ExecuteAsync(command, cancellationToken);
 		}
 	}
 }

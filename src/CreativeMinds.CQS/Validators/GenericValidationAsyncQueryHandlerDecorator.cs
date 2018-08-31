@@ -20,7 +20,7 @@ namespace CreativeMinds.CQS.Validators {
 			if (this.validators.Any()) {
 				List<ValidationResult> results = new List<ValidationResult>();
 				this.validators.ToList().ForEach(async validator => {
-					results.Add(await validator.ValidateAsync(query));
+					results.Add(await validator.ValidateAsync(query, cancellationToken));
 				});
 
 				if (results.Any(r => r.Errors.Any())) {

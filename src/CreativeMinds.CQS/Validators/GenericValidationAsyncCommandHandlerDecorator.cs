@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CreativeMinds.CQS.Validators {
@@ -18,12 +19,12 @@ namespace CreativeMinds.CQS.Validators {
 			this.logger = logger;
 		}
 
-		public async Task ExecuteAsync(TCommand command) {
+		public async Task ExecuteAsync(TCommand command, CancellationToken cancellationToken) {
 			if (this.validators.Any()) {
 				this.logger.LogInformation("Command handler validations found", this.validators);
 				List<ValidationResult> results = new List<ValidationResult>();
 				foreach (var validator in this.validators) {
-					ValidationResult result = await validator.ValidateAsync(command);
+					ValidationResult result = await validator.ValidateAsync(command, cancellationToken);
 					results.Add(result);
 				}
 
@@ -32,7 +33,7 @@ namespace CreativeMinds.CQS.Validators {
 					throw new ValidationException(results.SelectMany(r => r.Errors));
 				}
 			}
-			await this.wrappedHandler.ExecuteAsync(command);
+			await this.wrappedHandler.ExecuteAsync(command, cancellationToken);
 		}
 	}
 }
