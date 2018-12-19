@@ -64,7 +64,7 @@ namespace CreativeMinds.CQS.Autofac {
 		}
 
 		private static void RegisterHandlers(ContainerBuilder builder, Assembly assembly, Type handlerType) {
-			foreach (var type in assembly.GetTypes().Where(t => t.GetInterfaces().Any(i => i.IsConstructedGenericType == true && i.GetGenericTypeDefinition() == handlerType))) {
+			foreach (var type in assembly.GetTypes().Where(t => t.IsAbstract == false && t.GetInterfaces().Any(i => i.IsConstructedGenericType == true && i.GetGenericTypeDefinition() == handlerType))) {
 				builder
 					.RegisterType(type)
 					.As(type.GetInterfaces().First(i => i.IsConstructedGenericType == true && i.GetGenericTypeDefinition() == handlerType))
