@@ -47,6 +47,9 @@ namespace CreativeMinds.CQS.Dispatchers {
 					handler = permissionCheckHandler;
 				}
 			}
+			else {
+				this.logger.LogWarning($"No permission decorator found for the \"{typeof(TCommand).Name}\" command.");
+			}
 
 			// Any validation decorator found on the command?
 			if (attrs.Any(a => a.GetType() == typeof(CreativeMinds.CQS.Decorators.ValidateAttribute))) {
@@ -59,6 +62,9 @@ namespace CreativeMinds.CQS.Dispatchers {
 				else {
 					handler = validationHandler;
 				}
+			}
+			else {
+				this.logger.LogWarning($"No validation decorator found for the \"{typeof(TCommand).Name}\" command.");
 			}
 
 			//}

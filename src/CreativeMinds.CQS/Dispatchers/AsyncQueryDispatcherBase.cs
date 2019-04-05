@@ -47,6 +47,9 @@ namespace CreativeMinds.CQS.Dispatchers {
 					handler = permissionCheckHandler;
 				}
 			}
+			else {
+				this.logger.LogWarning($"No permission decorator found for the \"{typeof(TQuery).GetTypeInfo().Name}\" query and \"{typeof(TResult).GetTypeInfo().Name}\" result.");
+			}
 
 			// Any validation decorator found on the query?
 			if (attrs.Any(a => a.GetType() == typeof(CreativeMinds.CQS.Decorators.ValidateAttribute))) {
@@ -60,6 +63,9 @@ namespace CreativeMinds.CQS.Dispatchers {
 					handler = validationHandler;
 				}
 			}
+			else {
+				this.logger.LogWarning($"No validation decorator found for the \"{typeof(TQuery).GetTypeInfo().Name}\" query and \"{typeof(TResult).GetTypeInfo().Name}\" result.");
+			}
 
 			//}
 			//catch (Exception ex) {
@@ -67,7 +73,7 @@ namespace CreativeMinds.CQS.Dispatchers {
 			//	throw ex;
 			//}
 
-			this.logger.LogInformation($"Found a QuerHandler for the \"{typeof(TQuery).GetTypeInfo().Name}\" query and \"{typeof(TResult).GetTypeInfo().Name}\" result");
+			this.logger.LogInformation($"Found a QueryHandler for the \"{typeof(TQuery).GetTypeInfo().Name}\" query and \"{typeof(TResult).GetTypeInfo().Name}\" result");
 			return handler;
 		}
 
