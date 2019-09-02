@@ -14,9 +14,9 @@ namespace CreativeMinds.CQS.Validators {
 		protected readonly ILogger logger;
 
 		public GenericValidationAsyncCommandHandlerDecorator(IAsyncCommandHandler<TCommand> wrappedHandler, IEnumerable<IAsyncValidator<TCommand>> validators, ILogger<GenericValidationAsyncCommandHandlerDecorator<TCommand>> logger) {
-			this.wrappedHandler = wrappedHandler;
-			this.validators = validators;
-			this.logger = logger;
+			this.wrappedHandler = wrappedHandler ?? throw new ArgumentNullException(nameof(wrappedHandler));
+			this.validators = validators ?? throw new ArgumentNullException(nameof(validators));
+			this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
 		}
 
 		public async Task ExecuteAsync(TCommand command, CancellationToken cancellationToken) {
