@@ -32,7 +32,7 @@ namespace CreativeMinds.CQS.Validators {
 				}
 			}
 			else {
-				this.logger.LogWarning($"A validation decorator was found, but no validations for \"{typeof(TQuery).GetType().Name}\" query and \"{typeof(TResult).GetType().Name}\" result");
+				this.logger.LogWarning($"A validation decorator was found, but no validations for \"{typeof(TQuery).Name}\" query and \"{typeof(TResult).Name}\" result");
 			}
 
 			return this.wrappedHandler.Handle(query);

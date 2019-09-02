@@ -32,7 +32,7 @@ namespace CreativeMinds.CQS.Validators {
 				}
 			}
 			else {
-				this.logger.LogWarning($"A validation decorator was found, but no validations for \"{typeof(TCommand).GetType().Name}\" command");
+				this.logger.LogWarning($"A validation decorator was found, but no validations for \"{typeof(TCommand).Name}\" command");
 			}
 			this.wrappedHandler.Execute(command);
 		}
