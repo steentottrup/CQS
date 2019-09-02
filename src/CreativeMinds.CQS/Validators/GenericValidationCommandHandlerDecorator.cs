@@ -31,6 +31,9 @@ namespace CreativeMinds.CQS.Validators {
 					throw new ValidationException(results.SelectMany(r => r.Errors));
 				}
 			}
+			else {
+				this.logger.LogWarning($"A validation decorator was found, but no validations for \"{typeof(TCommand).GetType().Name}\" command");
+			}
 			this.wrappedHandler.Execute(command);
 		}
 	}
