@@ -69,7 +69,8 @@ namespace CreativeMinds.CQS.Autofac {
 			foreach (var type in assembly.GetTypes().Where(t => t.IsAbstract == false && t.GetInterfaces().Any(i => i.IsConstructedGenericType == true && i.GetGenericTypeDefinition() == handlerType))) {
 				builder
 					.RegisterType(type)
-					.As(type.GetInterfaces().First(i => i.IsConstructedGenericType == true && i.GetGenericTypeDefinition() == handlerType))
+					//.As(type.GetInterfaces().First(i => i.IsConstructedGenericType == true && i.GetGenericTypeDefinition() == handlerType))
+					.As(handlerType)
 					.InstancePerLifetimeScope();
 			}
 		}
