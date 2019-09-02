@@ -45,6 +45,7 @@ namespace CreativeMinds.CQS.Dispatchers {
 				}
 				else {
 					handler = permissionCheckHandler;
+					this.logger.LogDebug($"Found the permission check handle \"{permissionCheckHandler.GetType().Name}\" for the \"{typeof(TCommand).Name}\" command.");
 				}
 			}
 			else {
@@ -61,6 +62,7 @@ namespace CreativeMinds.CQS.Dispatchers {
 				}
 				else {
 					handler = validationHandler;
+					this.logger.LogDebug($"Found the validation handle \"{validationHandler.GetType().Name}\" for the \"{typeof(TCommand).Name}\" command.");
 				}
 			}
 			else {
@@ -73,7 +75,7 @@ namespace CreativeMinds.CQS.Dispatchers {
 			//	throw ex;
 			//}
 
-			this.logger.LogInformation($"Found a CommandHandler for the \"{typeof(TCommand).GetTypeInfo().Name}\" command");
+			this.logger.LogInformation($"Found the \"{handler.GetType().Name}\" CommandHandler for the \"{typeof(TCommand).GetTypeInfo().Name}\" command");
 			return handler;
 		}
 
