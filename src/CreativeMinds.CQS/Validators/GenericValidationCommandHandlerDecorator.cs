@@ -19,7 +19,7 @@ namespace CreativeMinds.CQS.Validators {
 
 		public void Execute(TCommand command) {
 			if (this.validators.Any()) {
-				this.logger.LogInformation("Command handler validations found", this.validators);
+				this.logger.LogInformation($"Command handler validation(s) found, count {this.validators.Count()}", this.validators);
 
 				List<ValidationResult> results = new List<ValidationResult>();
 				this.validators.ToList().ForEach(validator => {

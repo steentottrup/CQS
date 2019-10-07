@@ -20,7 +20,7 @@ namespace CreativeMinds.CQS.Validators {
 
 		public async Task<TResult> HandleAsync(TQuery query, CancellationToken cancellationToken) {
 			if (this.validators.Any()) {
-				this.logger.LogInformation("Query handler validations found", this.validators);
+				this.logger.LogInformation($"Query handler validation(s) found, vount {this.validators.Count()}", this.validators);
 				List<ValidationResult> results = new List<ValidationResult>();
 				this.validators.ToList().ForEach(async validator => {
 					results.Add(await validator.ValidateAsync(query, cancellationToken));

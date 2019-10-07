@@ -10,24 +10,24 @@ using System;
 namespace CreativeMinds.CQS.Autofac {
 
 	public class AsyncQueryDispatcher : AsyncQueryDispatcherBase {
-		private readonly IContainer container;
+		private readonly ILifetimeScope scope;
 
-		public AsyncQueryDispatcher(ILogger<AsyncQueryDispatcher> logger, IContainer container) : base(logger) {
+		public AsyncQueryDispatcher(ILogger<AsyncQueryDispatcher> logger, ILifetimeScope scope) : base(logger) {
 			// Needing the container itself is a bit of an anti-pattern, but unfortunately the building DI container in Core
 			// can not do what we need it to do! So no way around this, at least not at the moment.
-			this.container = container;
+			this.scope = scope;
 		}
 
 		protected override IGenericPermissionCheckAsyncQueryHandlerDecorator<TQuery, TResult> GetPermissionCheckHandler<TQuery, TResult>(IAsyncQueryHandler<TQuery, TResult> wrappedHandler) {
-			return this.container.Resolve<IGenericPermissionCheckAsyncQueryHandlerDecorator<TQuery, TResult>>(new Parameter[] { new NamedParameter("wrappedHandler", wrappedHandler) });
+			return this.scope.Resolve<IGenericPermissionCheckAsyncQueryHandlerDecorator<TQuery, TResult>>(new Parameter[] { new NamedParameter("wrappedHandler", wrappedHandler) });
 		}
 
 		protected override IAsyncQueryHandler<TQuery, TResult> GetQueryHandler<TQuery, TResult>() {
-			return this.container.Resolve<IAsyncQueryHandler<TQuery, TResult>>();
+			return this.scope.Resolve<IAsyncQueryHandler<TQuery, TResult>>();
 		}
 
 		protected override IGenericValidationAsyncQueryHandlerDecorator<TQuery, TResult> GetValidationHandler<TQuery, TResult>(IAsyncQueryHandler<TQuery, TResult> wrappedHandler) {
-			return this.container.Resolve<IGenericValidationAsyncQueryHandlerDecorator<TQuery, TResult>>(new Parameter[] { new NamedParameter("wrappedHandler", wrappedHandler) });
+			return this.scope.Resolve<IGenericValidationAsyncQueryHandlerDecorator<TQuery, TResult>>(new Parameter[] { new NamedParameter("wrappedHandler", wrappedHandler) });
 		}
 	}
 }

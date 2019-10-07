@@ -19,7 +19,7 @@ namespace CreativeMinds.CQS.Validators {
 
 		public TResult Handle(TQuery query) {
 			if (this.validators.Any()) {
-				this.logger.LogInformation("Query handler validations found", this.validators);
+				this.logger.LogInformation($"Query handler validation(s) found, count {this.validators.Count()}", this.validators);
 
 				List<ValidationResult> results = new List<ValidationResult>();
 				this.validators.ToList().ForEach(validator => {
