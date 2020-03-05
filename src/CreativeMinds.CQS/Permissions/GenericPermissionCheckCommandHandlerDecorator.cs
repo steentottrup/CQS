@@ -10,9 +10,9 @@ namespace CreativeMinds.CQS.Permissions {
 		private readonly IPermissionCheck<TCommand> check;
 
 		public GenericPermissionCheckCommandHandlerDecorator(ICommandHandler<TCommand> wrappedHandler, IIdentity currentUser, IPermissionCheck<TCommand> check) {
-			this.wrappedHandler = wrappedHandler;
+			this.wrappedHandler = wrappedHandler ?? throw new ArgumentNullException(nameof(wrappedHandler));
 			this.currentUser = currentUser;
-			this.check = check;
+			this.check = check ?? throw new ArgumentNullException(nameof(check));
 		}
 
 		protected void PerformCheck(TCommand command) {

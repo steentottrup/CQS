@@ -10,9 +10,9 @@ namespace CreativeMinds.CQS.Permissions {
 		private readonly IPermissionCheck<TQuery> check;
 
 		public GenericPermissionCheckQueryHandlerDecorator(IQueryHandler<TQuery, TResult> wrappedHandler, IIdentity currentUser, IPermissionCheck<TQuery> check) {
-			this.wrappedHandler = wrappedHandler;
+			this.wrappedHandler = wrappedHandler ?? throw new ArgumentNullException(nameof(wrappedHandler));
 			this.currentUser = currentUser;
-			this.check = check;
+			this.check = check ?? throw new ArgumentNullException(nameof(check));
 		}
 
 		protected void PerformCheck(TQuery query) {
