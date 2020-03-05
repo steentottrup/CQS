@@ -22,7 +22,7 @@ namespace CreativeMinds.CQS.Permissions {
 		}
 
 		protected async Task PerformCheckAsync(TQuery query, CancellationToken cancellationToken) {
-			this.logger.LogDebug($"Doing a performance check for the query \"{typeof(TQuery).GetTypeInfo().Name}\" using the class \"{this.check.GetType().Name}\"");
+			this.logger.LogDebug($"Doing a permission check for the query \"{typeof(TQuery).GetTypeInfo().Name}\" using the class \"{this.check.GetType().Name}\"");
 			IPermissionCheckResult result = await this.check.CheckAsync(query, this.currentUser, cancellationToken);
 			if (!result.HasPermissions) {
 				this.logger.LogCritical("Query handler permission check returned NO!", result.ErrorMessage);
