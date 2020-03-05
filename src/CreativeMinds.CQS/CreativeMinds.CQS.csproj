@@ -8,8 +8,8 @@
     <Company>CreativeMinds Ivs</Company>
     <Description>A generic CQS (command, query separation) package for .Net Core</Description>
     <Copyright>Copyright 2018 (C) CreativeMinds Ivs. All rights reserved.</Copyright>
-    <PackageLicenseUrl>https://github.com/steentottrup/CQS/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/steentottrup/CQS</PackageProjectUrl>
+		<license>LICENSE</license>
+		<PackageProjectUrl>https://github.com/steentottrup/CQS</PackageProjectUrl>
     <RepositoryUrl>https://github.com/steentottrup/CQS</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>CQS</PackageTags>
