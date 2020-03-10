@@ -2,5 +2,12 @@
 
 namespace CreativeMinds.CQS.Decorators {
 
-	public class CheckPermissionsAttribute : Attribute { }
+	[AttributeUsage(AttributeTargets.Class)]
+	public class CheckPermissionsAttribute : Attribute {
+		protected readonly Boolean FailWhenMissing;
+
+		public CheckPermissionsAttribute(Boolean failWhenMissing = true) {
+			this.FailWhenMissing = failWhenMissing;
+		}
+	}
 }

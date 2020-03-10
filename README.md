@@ -10,6 +10,10 @@ Commands and queries will have their permission checks executed first, if any ar
 
 CreativeMinds CQS also includes classes and interfaces for using events. You can have any number of event handlers for a given event.
 
+### Breaking change in v1.1
+
+Version 1.1 has, what can be, a breaking change. Before v1.1 you could decorate commands/queries with the ValidateAttribute and/or CheckPermissionsAttribute without actually implementing the needed classes to actually validate and/or check permissions. Before v1.1 this would just mean a warning logged. From v1.1 a exception is thrown.
+
 ###### Validation
 ```
 [Validate]
