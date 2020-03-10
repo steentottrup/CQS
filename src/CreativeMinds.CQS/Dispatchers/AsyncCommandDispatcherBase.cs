@@ -41,7 +41,17 @@ namespace CreativeMinds.CQS.Dispatchers {
 				// Let's get the permission check handler, we need it.
 				IAsyncCommandHandler<TCommand> permissionCheckHandler = this.GetPermissionCheckHandler<TCommand>(handler);
 				if (permissionCheckHandler == null) {
-					this.logger.LogWarning($"A permission check decorator was found for the \"{typeof(TCommand).GetTypeInfo().Name}\" command, but no handler was located.");
+					CreativeMinds.CQS.Decorators.CheckPermissionsAttribute attr = attrs.FirstOrDefault(a => a.GetType() == typeof(CreativeMinds.CQS.Decorators.CheckPermissionsAttribute)) as CreativeMinds.CQS.Decorators.CheckPermissionsAttribute;
+					if (attr == null ) {
+						attr = attrs.FirstOrDefault(a => a.GetType().BaseType == typeof(CreativeMinds.CQS.Decorators.CheckPermissionsAttribute)) as CreativeMinds.CQS.Decorators.CheckPermissionsAttribute;
+					}
+
+					if (attr.FailWhenMissing == true) {
+						throw new NoCheckPermissionsHandlerImplementedException(typeof(TCommand));
+					}
+					else {
+						this.logger.LogWarning($"A permission check decorator was found for the \"{typeof(TCommand).GetTypeInfo().Name}\" command, but no handler was located.");
+					}
 				}
 				else {
 					handler = permissionCheckHandler;
@@ -58,7 +68,17 @@ namespace CreativeMinds.CQS.Dispatchers {
 				// Let's get the validation handler, we need it.
 				IAsyncCommandHandler<TCommand> validationHandler = this.GetValidationHandler<TCommand>(handler);
 				if (validationHandler == null) {
-					this.logger.LogWarning($"A validation decorator was found for the \"{typeof(TCommand).GetTypeInfo().Name}\" command, but no handler was located.");
+					CreativeMinds.CQS.Decorators.ValidateAttribute attr = attrs.FirstOrDefault(a => a.GetType() == typeof(CreativeMinds.CQS.Decorators.ValidateAttribute)) as CreativeMinds.CQS.Decorators.ValidateAttribute;
+					if (attr == null) {
+						attr = attrs.FirstOrDefault(a => a.GetType().BaseType == typeof(CreativeMinds.CQS.Decorators.ValidateAttribute)) as CreativeMinds.CQS.Decorators.ValidateAttribute;
+					}
+
+					if (attr.FailWhenMissing == true) {
+						throw new NoValidatorHandlerImplementedException(typeof(TCommand));
+					}
+					else {
+						this.logger.LogWarning($"A validation decorator was found for the \"{typeof(TCommand).GetTypeInfo().Name}\" command, but no handler was located.");
+					}
 				}
 				else {
 					handler = validationHandler;

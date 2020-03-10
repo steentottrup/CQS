@@ -2,5 +2,5 @@
 
 namespace CreativeMinds.CQS {
 
-	public class RequiredHandlerNotFoundException : Exception { }
+	public class RequiredHandlerNotFoundException : ApplicationException { }
 }
