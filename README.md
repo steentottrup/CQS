@@ -12,7 +12,7 @@ CreativeMinds CQS also includes classes and interfaces for using events. You can
 
 ### Breaking change in v1.1
 
-Version 1.1 has, what can be, a breaking change. Before v1.1 you could decorate commands/queries with the ValidateAttribute and/or CheckPermissionsAttribute without actually implementing the needed classes to actually validate and/or check permissions. Before v1.1 this would just mean a warning logged. From v1.1 a exception is thrown.
+Version 1.1 has, what can be, a breaking change. Before v1.1 you could decorate commands/queries with the ValidateAttribute and/or CheckPermissionsAttribute without actually implementing the needed classes to actually validate and/or check permissions. Before v1.1 this would just mean a warning logged. From v1.1 an exception is thrown.
 
 ###### Validation
 ```

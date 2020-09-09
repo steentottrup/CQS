@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,9 +23,10 @@ namespace CreativeMinds.CQS.Validators {
 			if (this.validators.Any()) {
 				this.logger.LogInformation($"Query handler validation(s) found, count {this.validators.Count()}", this.validators);
 				List<ValidationResult> results = new List<ValidationResult>();
-				this.validators.ToList().ForEach(async validator => {
+				foreach (var validator in this.validators) {
+					this.logger.LogDebug($"Doing a validation check for the query \"{typeof(TQuery).GetTypeInfo().Name}\" using the class \"{validator.GetType().Name}\"");
 					results.Add(await validator.ValidateAsync(query, cancellationToken));
-				});
+				}
 
 				if (results.Any(r => r.Errors.Any())) {
 					this.logger.LogCritical("Query handler validations returned errors", results);

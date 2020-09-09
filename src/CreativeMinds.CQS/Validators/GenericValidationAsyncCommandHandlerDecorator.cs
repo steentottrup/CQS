@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,6 +25,7 @@ namespace CreativeMinds.CQS.Validators {
 				this.logger.LogInformation($"Command handler validation(s) found, count {this.validators.Count()}", this.validators);
 				List<ValidationResult> results = new List<ValidationResult>();
 				foreach (var validator in this.validators) {
+					this.logger.LogDebug($"Doing a validation check for the command \"{typeof(TCommand).GetTypeInfo().Name}\" using the class \"{validator.GetType().Name}\"");
 					ValidationResult result = await validator.ValidateAsync(command, cancellationToken);
 					results.Add(result);
 				}
