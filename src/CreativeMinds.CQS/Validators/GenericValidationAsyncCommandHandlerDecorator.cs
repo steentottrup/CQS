@@ -31,7 +31,7 @@ namespace CreativeMinds.CQS.Validators {
 				}
 
 				if (results.Any(r => r.Errors.Any())) {
-					this.logger.LogCritical("Command handler validations returned errors", results);
+					this.logger.LogCritical($"Command handler validations returned errors, {String.Join(", ", results.SelectMany(e => e.Errors).Select(e => $"{e.Message} {e.Code}"))}", results);
 					throw new ValidationException(results.SelectMany(r => r.Errors));
 				}
 			}

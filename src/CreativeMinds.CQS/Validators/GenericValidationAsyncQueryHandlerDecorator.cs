@@ -1,5 +1,6 @@
 ﻿using CreativeMinds.CQS.Queries;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -29,7 +30,7 @@ namespace CreativeMinds.CQS.Validators {
 				}
 
 				if (results.Any(r => r.Errors.Any())) {
-					this.logger.LogCritical("Query handler validations returned errors", results);
+					this.logger.LogCritical($"Query handler validations returned errors, {String.Join(", ", results.SelectMany(e => e.Errors).Select(e => $"{e.Message} {e.Code}"))}", results);
 					throw new ValidationException(results.SelectMany(r => r.Errors));
 				}
 			}
